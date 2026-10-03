@@ -2,5 +2,10 @@ name = "ppa-lean"
 version = "0.1.0"
 defaultTargets = ["PPA", "PPA.Chapter01"]
 
+[[require]]
+name = "transport-span"
+git = "https://github.com/rotbotd/lean-transport-span"
+rev = "c415425"
+
 [[lean_lib]]
 name = "PPA"

@@ -1,4 +1,5 @@
 import PPA.Chapter01.While
+import TransportSpan
 
 /-!
 The local transfer step from PPA Section 1.3.
@@ -68,8 +69,8 @@ theorem entry_covers : Covers DefSet.entry LastWriter.entry :=
 /--
 The assignment equation is locally sound. The proof is an ordinary term:
 written variables take the generated branch; every other variable takes the
-preserved branch. `Eq.mpr` exposes the only rewriting step, from the result of
-`LastWriter.write` to the corresponding branch value.
+preserved branch. Each `transport` span displays the branch fact on the left
+and the concrete `LastWriter.write` fact required by the result on the right.
 -/
 theorem assign_sound
     (definitions : DefSet)
@@ -81,16 +82,24 @@ theorem assign_sound
       (LastWriter.write last written label) :=
   fun name =>
     if same : name = written then
-      Eq.mpr
-        (congrArg
-          (fun origin => DefSet.assign definitions written label name origin)
-          (if_pos same))
+      let branch : (some label : Origin) =
+          (if name = written then some label else last name) :=
+        (if_pos same).symm
+      transport {
+        DefSet.assign definitions written label name (some label) ->
+        DefSet.assign definitions written label name
+          (if name = written then some label else last name)
+      } branch
         (Or.inr ⟨same, rfl⟩)
     else
-      Eq.mpr
-        (congrArg
-          (fun origin => DefSet.assign definitions written label name origin)
-          (if_neg same))
+      let branch : last name =
+          (if name = written then some label else last name) :=
+        (if_neg same).symm
+      transport {
+        DefSet.assign definitions written label name (last name) ->
+        DefSet.assign definitions written label name
+          (if name = written then some label else last name)
+      } branch
         (Or.inl ⟨same, covered name⟩)
 
 /-- A generated definition is always present after its own assignment. -/

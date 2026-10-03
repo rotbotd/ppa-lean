@@ -18,7 +18,25 @@
     },
     "root": {
       "inputs": {
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "transport-span": "transport-span"
+      }
+    },
+    "transport-span": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791054237,
+        "narHash": "sha256-/NV0MkYuPdGESyYjd2QZxADriBDJwly55W6rwxkoOTc=",
+        "owner": "rotbotd",
+        "repo": "lean-transport-span",
+        "rev": "c415425d28fb3484f0044bc074017edf70b9e71c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rotbotd",
+        "ref": "c415425",
+        "repo": "lean-transport-span",
+        "type": "github"
       }
     }
   },

@@ -36,3 +36,24 @@
   solver's fuel as a termination argument. The remaining edge is the book's
   finiteness/ascending-chain proof and its connection to the twelve-component
   equation system.
+
+## 2026-10-03 — visible transport dependency
+
+- Published the previously local `transport-span` library at
+  `https://github.com/rotbotd/lean-transport-span`, pinned PPA to commit
+  `c415425`, and replaced the raw `Eq.mp`/`Eq.mpr` transports in the current
+  chapter with visible source-to-target spans.
+- `iterate_below_fixed` now shows the exact move from
+  `(function other) element` to `other element`. `assign_sound` shows the
+  generated or preserved branch fact moving to the concrete conditional
+  selected by `LastWriter.write`.
+- Passing `(if_pos same).symm` directly lost the unreduced conditional in the
+  inferred equality type, so the span could no longer identify its target.
+  Giving each branch equality an explicit local type retains both endpoints;
+  this is a real elaboration boundary rather than a kernel issue.
+- A copied flake input initially made Lake delete the dependency and attempt a
+  network clone because its manifest still described a Git source. The Nix
+  build now rewrites only its sandbox copy of `lakefile.toml` to a path
+  dependency, regenerates the sandbox manifest, and builds the exact source
+  pinned by `flake.lock`. Ordinary Lake users retain the public Git dependency.
+- `lake build` and `nix flake check` both pass.

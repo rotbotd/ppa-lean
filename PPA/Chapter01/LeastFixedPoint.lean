@@ -1,3 +1,5 @@
+import TransportSpan
+
 /-!
 The order-theoretic argument on PPA Chapter 1, pp. 34--37 of the authors'
 transparencies.
@@ -64,8 +66,10 @@ theorem iterate_below_fixed
   | 0, other, _ => empty_subset other
   | step + 1, other, fixed =>
       fun element present =>
-        Eq.mp
-          (congrArg (fun set => set element) fixed)
+        transport {
+          (function other) element ->
+          other element
+        } fixed
           (monotone
             (iterate_below_fixed function monotone step other fixed)
             element

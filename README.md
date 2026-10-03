@@ -5,7 +5,16 @@ and Chris Hankin's *Principles of Program Analysis*.
 
 The source order is part of the project: later abstractions do not replace the
 worked analyses which motivate them. Proofs use explicit Lean terms rather
-than tactics. Each chapter has:
+than tactics. Equality transport uses the separately checked
+[`transport-span`](https://github.com/rotbotd/lean-transport-span) elaborator,
+so the source and destination propositions remain visible at each rewrite:
+
+```lean
+transport { (function other) element -> other element } fixed present
+```
+
+The elaborator emits `Eq.mp (congrArg ...)`; Lean's kernel still checks the
+ordinary proof term. Each chapter has:
 
 1. the definitions introduced by the book;
 2. a worked analysis taken from the book;

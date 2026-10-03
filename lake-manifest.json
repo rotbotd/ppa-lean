@@ -1,6 +1,16 @@
 {"version": "1.2.0",
  "packagesDir": ".lake/packages",
- "packages": [],
+ "packages":
+ [{"url": "https://github.com/rotbotd/lean-transport-span",
+   "type": "git",
+   "subDir": null,
+   "scope": "",
+   "rev": "c415425d28fb3484f0044bc074017edf70b9e71c",
+   "name": "«transport-span»",
+   "manifestFile": "lake-manifest.json",
+   "inputRev": "c415425",
+   "inherited": false,
+   "configFile": "lakefile.toml"}],
  "name": "«ppa-lean»",
  "lakeDir": ".lake",
  "fixedToolchain": false}
