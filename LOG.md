@@ -1,0 +1,24 @@
+# Log
+
+## 2026-10-03 — chapter 1 source and boundary
+
+- The formalization follows the book chapter by chapter rather than extracting
+  a freestanding abstract-interpretation library.
+- Archived the authors' 2005 Chapter 1 transparencies outside Git at
+  `/root/.cache/lynn/ppa/chapter1-slides.pdf`. Source:
+  `https://cs.nju.edu.cn/_upload/tpl/00/aa/170/template170/analysis/slides1.pdf`.
+  SHA-256:
+  `534b798d3936844ade8e2ad764a1c87cd43bbf9f4d37d1c8211446c1c6eae9b3`.
+- The first vertical slice is Section 1.3's reaching-definitions example:
+  labelled `WHILE`, the kill/gen assignment transfer, and its local semantic
+  soundness argument. Its executable equation system must reproduce the
+  book's best solution, including the two back-edge definitions at the loop
+  head. No tactic proof is accepted in the project source.
+- Chapter 1 remains open until its four sampler approaches and their shared
+  fixed-point machinery are represented.
+- The executable table uses twelve named entry/exit components and a
+  simultaneous equation step. Kernel reduction checks that iteration reaches
+  a fixed point, that the loop entry contains `(y,5)` and `(z,4)` and exactly
+  five facts, and that label 6 kills both older `y` facts. `Facts.assign_denotes`
+  proves the list implementation is exactly the predicate-level kill/gen
+  equation rather than a parallel unverified implementation.
