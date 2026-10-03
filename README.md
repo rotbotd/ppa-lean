@@ -18,6 +18,12 @@ point and checks the exact loop-entry and final-assignment facts. The local
 soundness proof exposes every case as an ordinary term; a separate theorem
 connects the executable list operation to that predicate-level equation.
 
+`LeastFixedPoint.lean` follows the next four pages without appealing to a
+library theorem. It constructs the ascending chain from monotonicity, proves
+every iterate lies below every fixed point, and turns an explicit adjacent-
+iterate equality into the least fixed point. Finite convergence remains a
+separate obligation rather than being hidden as an arbitrary fuel count.
+
 ## Check
 
 ```console

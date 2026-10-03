@@ -22,3 +22,17 @@
   five facts, and that label 6 kills both older `y` facts. `Facts.assign_denotes`
   proves the list implementation is exactly the predicate-level kill/gen
   equation rather than a parallel unverified implementation.
+
+## 2026-10-03 — monotone iteration
+
+- Formalized pp. 34--36 of the Chapter 1 transparencies directly over
+  predicate powersets: subset, monotonicity, iteration from `∅`, fixed points,
+  and least fixed points.
+- `iterate_grows` constructs the ascending chain. `iterate_below_fixed`
+  recursively proves each iterate is below any fixed point; its only rewrite
+  is an explicit `Eq.mp` along the fixed-point equality.
+- `converged_is_least_fixed` consumes `fⁿ(∅) = fⁿ⁺¹(∅)` and returns the
+  least-fixed-point statement. This deliberately does not use the executable
+  solver's fuel as a termination argument. The remaining edge is the book's
+  finiteness/ascending-chain proof and its connection to the twelve-component
+  equation system.
