@@ -101,3 +101,21 @@
   fixed solution in addition to checking stability by reduction. Deriving the
   round bound from the finite reachable fact universe remains open.
 - There are still no tactic blocks. `lake build` and `nix flake check` pass.
+
+## 2026-10-04 — constraint-based CFA begins
+
+- Started Section 1.4 with the exact smaller source program from slides
+  46--53, rather than inventing a cleaner example. `ConstraintCFA.State` has
+  the four environment components `R(x), R(y), R(f), R(g)` and seven cache
+  components `C(1)..C(7)`.
+- `State.step` directly implements the four unconditional constraints and
+  eight guarded application consequences. Each guard tests whether `f` or
+  `g` is present at the operator label, then propagates the argument cache to
+  the formal parameter and the body cache to the result label.
+- Eight synchronous rounds reduce to a stable state. Kernel reduction checks
+  the discriminating entries of the best solution: `g ∈ C(1)`,
+  `f ∉ C(1)`, `f ∈ C(5)`, `g ∈ R(x)`, and `R(y) = ∅`. These distinguish the
+  best solution from the deliberately over-approximated table on slide 40.
+- This slice states and computes the constraint operator; its inclusion
+  monotonicity and leastness proof remain open rather than being inherited by
+  assertion from the reaching-definitions operator.

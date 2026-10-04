@@ -1,6 +1,6 @@
 name = "ppa-lean"
 version = "0.1.0"
-defaultTargets = ["PPA", "PPA.Chapter01"]
+defaultTargets = ["PPA", "PPA.Chapter01", "PPA.Chapter01.ConstraintCFA"]
 
 [[require]]
 name = "transport-span"

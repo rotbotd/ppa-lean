@@ -42,6 +42,14 @@ operator is already proved monotone and its 24-round result least; the
 remaining gap is deriving a convergence bound rather than observing that
 this particular round count is stable.
 
+`ConstraintCFA.lean` starts Section 1.4 from the book's own seven-label
+lambda-calculus example. Its eleven fields are exactly `R(x)`, `R(y)`,
+`R(f)`, `R(g)`, and `C(1)` through `C(7)`; `State.step` is the four
+unconditional inclusions plus all eight guarded consequences printed on
+pp. 46--51. Iteration recovers the best solution rather than the safe but
+imprecise one: the call through `x` contains `g` but not `f`, the outer call
+contains `f`, and the constant argument contributes no abstraction.
+
 ## Check
 
 ```console
