@@ -30,8 +30,11 @@ connects the executable list operation to that predicate-level equation.
 `LeastFixedPoint.lean` follows the next four pages without appealing to a
 library theorem. It constructs the ascending chain from monotonicity, proves
 every iterate lies below every fixed point, and turns an explicit adjacent-
-iterate equality into the least fixed point. Finite convergence remains a
-separate obligation rather than being hidden as an arbitrary fuel count.
+iterate equality into the least fixed point. A `HeightBound` certificate then
+turns finite height into a convergence index: if every round were strict, its
+bounded rank would rise past its own bound. Connecting that generic argument
+to the twelve-component reaching-definitions domain remains explicit work;
+the executable solver's fuel is not being used as a termination theorem.
 
 ## Check
 

@@ -46,6 +46,19 @@ def IsLeastFixed
   IsFixed function candidate ∧
     ∀ other, IsFixed function other → Subset candidate other
 
+/-!
+A finite powerset gets this certificate by taking `rank` to be cardinality and
+`bound` to be the size of its carrier. Stating the exact property here keeps
+the termination proof independent of a particular finite-set container: every
+strict inclusion consumes at least one unit of the finite height.
+-/
+structure HeightBound (α : Type) where
+  rank : Powerset α → Nat
+  bound : Nat
+  bounded : ∀ candidate, rank candidate ≤ bound
+  strictGrowth : ∀ {lower upper},
+    Subset lower upper → lower ≠ upper → rank lower < rank upper
+
 private theorem empty_subset (other : Powerset α) : Subset empty other :=
   fun _ impossible => False.elim impossible
 
@@ -75,6 +88,48 @@ theorem iterate_below_fixed
             element
             present)
 
+/-- If no adjacent iterates agree, each round consumes one unit of height. -/
+private theorem rank_after_steps
+    (function : Powerset α → Powerset α)
+    (monotone : Monotone function)
+    (height : HeightBound α)
+    (neverConverges : ∀ step,
+      iterate function step ≠ iterate function (step + 1)) :
+    ∀ count,
+      height.rank (iterate function 0) + count ≤
+        height.rank (iterate function count)
+  | 0 => Nat.le_refl _
+  | count + 1 =>
+      Nat.le_trans
+        (Nat.succ_le_succ
+          (rank_after_steps function monotone height neverConverges count))
+        (Nat.succ_le_of_lt
+          (height.strictGrowth
+            (iterate_grows function monotone count)
+            (neverConverges count)))
+
+/-- Finite height turns the ascending chain into an actual convergence index. -/
+theorem finite_height_converges
+    (function : Powerset α → Powerset α)
+    (monotone : Monotone function)
+    (height : HeightBound α) :
+    ∃ step, iterate function step = iterate function (step + 1) :=
+  Classical.byContradiction fun noConvergence =>
+    let neverConverges : ∀ step,
+        iterate function step ≠ iterate function (step + 1) :=
+      not_exists.mp noConvergence
+    let tooManyStrictSteps :=
+      rank_after_steps function monotone height neverConverges
+        (height.bound + 1)
+    Nat.not_succ_le_self height.bound
+      (Nat.le_trans
+        (Nat.le_trans
+          (Nat.le_add_left
+            (height.bound + 1)
+            (height.rank (iterate function 0)))
+          tooManyStrictSteps)
+        (height.bounded (iterate function (height.bound + 1))))
+
 /--
 Once adjacent iterates coincide, that iterate is not merely a fixed point: it
 is below every other fixed point, hence the least one.
@@ -88,5 +143,15 @@ theorem converged_is_least_fixed
   ⟨converged.symm,
     fun other fixed =>
       iterate_below_fixed function monotone step other fixed⟩
+
+/-- The book's complete Kleene-iteration claim for a finite-height domain. -/
+theorem finite_height_reaches_least_fixed
+    (function : Powerset α → Powerset α)
+    (monotone : Monotone function)
+    (height : HeightBound α) :
+    ∃ step, IsLeastFixed function (iterate function step) :=
+  match finite_height_converges function monotone height with
+  | ⟨step, converged⟩ =>
+      ⟨step, converged_is_least_fixed function monotone step converged⟩
 
 end PPA.Chapter01.LeastFixedPoint

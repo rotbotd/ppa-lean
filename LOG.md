@@ -57,3 +57,20 @@
   dependency, regenerates the sandbox manifest, and builds the exact source
   pinned by `flake.lock`. Ordinary Lake users retain the public Git dependency.
 - `lake build` and `nix flake check` both pass.
+
+## 2026-10-04 — finite height forces convergence
+
+- Added `HeightBound`: a natural-valued rank, a global bound, and the claim
+  that every strict inclusion strictly raises the rank. For a finite
+  powerset, cardinality and the carrier size supply exactly this certificate.
+- `rank_after_steps` proves by recursion that if no two adjacent Kleene
+  iterates agree, `n` rounds raise the rank by at least `n`.
+  `finite_height_converges` runs that claim for `bound + 1` rounds and obtains
+  the concrete contradiction `bound + 1 ≤ bound`.
+- `finite_height_reaches_least_fixed` composes the new termination result with
+  the existing minimality proof. The theorem now contains the whole argument
+  on slides 34--36: monotone ascent, finite convergence, and leastness.
+- This deliberately does not yet assert that the executable twelve-component
+  table is an instance. Its finite fact universe and the denotation of the
+  simultaneous table step remain the next bridge.
+- No tactic blocks were introduced. `lake build` and `nix flake check` pass.
