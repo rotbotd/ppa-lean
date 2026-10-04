@@ -137,3 +137,25 @@
   check to a proof that the displayed best solution is below every other
   solution of the constraints.
 - No tactic blocks were introduced. `lake build` and `nix flake check` pass.
+
+## 2026-10-04 — concrete traces meet reaching definitions
+
+- Began Section 1.5 with the actual representation-changing operation. A
+  `Trace` is a chronological list of definitions; folding `Trace.record`
+  produces the last writer of each variable, and `semanticReaching` exposes
+  those last writers as a predicate set.
+- Defined `abstract` by existentially collecting facts exhibited by concrete
+  traces. Defined `concretize` as the traces whose semantic reaching facts are
+  included in a supplied abstract fact set.
+- Proved the Galois law directly:
+  `X ⊆ concretize Y ↔ abstract X ⊆ Y`. The forward direction opens the trace
+  witness stored by `abstract`; the reverse direction packages the current
+  trace as that witness. The unit gives soundness of abstraction, and the
+  counit proves concretize-then-abstract cannot invent an unlisted fact.
+- Encoded the two traces drawn on slide 68. Kernel reduction checks that their
+  abstraction contains the five characteristic facts shown there:
+  `(x, ?)`, `(y, 1)`, `(y, 5)`, `(z, 2)`, and `(z, 4)`. These are individual
+  membership claims; exclusion of all other facts is not yet asserted.
+- Inducing the assignment transfer as `abstract ∘ concreteStep ∘ concretize`
+  remains the next edge; the file does not yet identify that composite with
+  kill/gen by assertion.

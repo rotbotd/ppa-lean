@@ -53,6 +53,14 @@ guarded propagation operator is proved monotone—including the case where a
 guard becomes newly enabled—and the computed state is proved below every
 other fixed solution.
 
+`AbstractInterpretation.lean` begins Section 1.5 at the concrete/abstract
+boundary rather than at a lattice slogan. A trace records successive variable
+definitions; `semanticReaching` keeps its last writer for each variable.
+`abstract` unions those facts over a trace set, while `concretize` selects the
+traces admitted by a fact set. Their Galois law is proved in both directions,
+and the two pictured traces on slide 68 exhibit all five displayed reaching
+facts by reduction.
+
 ## Check
 
 ```console
