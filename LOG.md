@@ -79,3 +79,25 @@
   plumbing. Replaced both transitivity trees with `calc` chains which display
   every intermediate bound. `calc` still elaborates to a term and introduces
   no tactic proof.
+
+## 2026-10-04 — the twelve equations are monotone
+
+- Defined membership inclusion for executable `Facts` and proved it is
+  preserved by `merge`, `kill`, and `assign`. The `merge` proof is an exact
+  recursive membership equivalence for the existing duplicate-removing
+  implementation; the executable representation was not changed merely to
+  make the proof shorter.
+- Lifted inclusion to all twelve fields of `Table` and proved `Table.step`
+  monotone field by field. This is the concrete equation operator from the
+  book, not a parallel abstract function asserted to agree later.
+- Changed the private iterator from accumulator recursion to the displayed
+  mathematical recurrence `f(iterate n f x)`. The computed result and all
+  reduction checks are unchanged, while the ascending-chain induction is now
+  definitionally aligned with the book.
+- Proved every concrete iterate lies below every fixed table. The induction's
+  final equality move uses `transport-span` to display the change from
+  inclusion below `Table.step other` to inclusion below `other`.
+- `example_is_least_fixed` now proves the 24-round table is below every other
+  fixed solution in addition to checking stability by reduction. Deriving the
+  round bound from the finite reachable fact universe remains open.
+- There are still no tactic blocks. `lake build` and `nix flake check` pass.

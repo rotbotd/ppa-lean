@@ -26,6 +26,10 @@ then runs the twelve equations for the book's six-label example to a fixed
 point and checks the exact loop-entry and final-assignment facts. The local
 soundness proof exposes every case as an ordinary term; a separate theorem
 connects the executable list operation to that predicate-level equation.
+Membership inclusion is proved through `merge`, `kill`, and `assign`, then
+lifted field-by-field through all twelve equations. Consequently the actual
+computed table is proved to be the least fixed table, not just checked to be
+stable.
 
 `LeastFixedPoint.lean` follows the next four pages without appealing to a
 library theorem. It constructs the ascending chain from monotonicity, proves
@@ -33,8 +37,10 @@ every iterate lies below every fixed point, and turns an explicit adjacent-
 iterate equality into the least fixed point. A `HeightBound` certificate then
 turns finite height into a convergence index: if every round were strict, its
 bounded rank would rise past its own bound. Connecting that generic argument
-to the twelve-component reaching-definitions domain remains explicit work;
-the executable solver's fuel is not being used as a termination theorem.
+to the finite fact universe remains explicit work. The twelve-component
+operator is already proved monotone and its 24-round result least; the
+remaining gap is deriving a convergence bound rather than observing that
+this particular round count is stable.
 
 ## Check
 
