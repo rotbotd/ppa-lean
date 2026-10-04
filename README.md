@@ -48,7 +48,10 @@ lambda-calculus example. Its eleven fields are exactly `R(x)`, `R(y)`,
 unconditional inclusions plus all eight guarded consequences printed on
 pp. 46--51. Iteration recovers the best solution rather than the safe but
 imprecise one: the call through `x` contains `g` but not `f`, the outer call
-contains `f`, and the constant argument contributes no abstraction.
+contains `f`, and the constant argument contributes no abstraction. The
+guarded propagation operator is proved monotone—including the case where a
+guard becomes newly enabled—and the computed state is proved below every
+other fixed solution.
 
 ## Check
 

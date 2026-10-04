@@ -119,3 +119,21 @@
 - This slice states and computes the constraint operator; its inclusion
   monotonicity and leastness proof remain open rather than being inherited by
   assertion from the reaching-definitions operator.
+
+## 2026-10-04 — guarded constraints are monotone
+
+- Proved exact membership semantics and monotonicity for CFA flow merge and
+  insertion, then handled the genuinely conditional operation separately.
+- `whenPresent_monotone` distinguishes three cases. A closed lower guard
+  contributes nothing. Two open guards pass the contribution inclusion
+  through. An open lower guard and closed upper guard is impossible because
+  inclusion carries the triggering abstraction upward. Explicitly typed
+  equalities plus `transport-span` retain the conditional endpoints which
+  Lean otherwise reduces away.
+- Lifted flow inclusion to all eleven environment/cache components and proved
+  the full guarded constraint operator monotone field by field.
+- As for reaching definitions, every concrete iterate is below any fixed
+  state. `example_is_least_fixed` therefore upgrades the eight-round reduction
+  check to a proof that the displayed best solution is below every other
+  solution of the constraints.
+- No tactic blocks were introduced. `lake build` and `nix flake check` pass.
