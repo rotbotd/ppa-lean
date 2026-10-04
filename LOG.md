@@ -74,3 +74,8 @@
   table is an instance. Its finite fact universe and the denotation of the
   simultaneous table step remain the next bridge.
 - No tactic blocks were introduced. `lake build` and `nix flake check` pass.
+- The first term-mode version nested `Nat.le_trans`, `Nat.succ_le_succ`, and
+  `Nat.succ_le_of_lt`; it checked but hid the induction behind inequality
+  plumbing. Replaced both transitivity trees with `calc` chains which display
+  every intermediate bound. `calc` still elaborates to a term and introduces
+  no tactic proof.

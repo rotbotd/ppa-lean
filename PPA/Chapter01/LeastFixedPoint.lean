@@ -100,13 +100,16 @@ private theorem rank_after_steps
         height.rank (iterate function count)
   | 0 => Nat.le_refl _
   | count + 1 =>
-      Nat.le_trans
-        (Nat.succ_le_succ
-          (rank_after_steps function monotone height neverConverges count))
-        (Nat.succ_le_of_lt
-          (height.strictGrowth
-            (iterate_grows function monotone count)
-            (neverConverges count)))
+      calc
+        height.rank (iterate function 0) + (count + 1) ≤
+            height.rank (iterate function count) + 1 :=
+          Nat.succ_le_succ
+            (rank_after_steps function monotone height neverConverges count)
+        _ ≤ height.rank (iterate function (count + 1)) :=
+          Nat.succ_le_of_lt
+            (height.strictGrowth
+              (iterate_grows function monotone count)
+              (neverConverges count))
 
 /-- Finite height turns the ascending chain into an actual convergence index. -/
 theorem finite_height_converges
@@ -122,13 +125,16 @@ theorem finite_height_converges
       rank_after_steps function monotone height neverConverges
         (height.bound + 1)
     Nat.not_succ_le_self height.bound
-      (Nat.le_trans
-        (Nat.le_trans
-          (Nat.le_add_left
+      (calc
+        height.bound + 1 ≤
+            height.rank (iterate function 0) + (height.bound + 1) :=
+          Nat.le_add_left
             (height.bound + 1)
-            (height.rank (iterate function 0)))
-          tooManyStrictSteps)
-        (height.bounded (iterate function (height.bound + 1))))
+            (height.rank (iterate function 0))
+        _ ≤ height.rank (iterate function (height.bound + 1)) :=
+          tooManyStrictSteps
+        _ ≤ height.bound :=
+          height.bounded (iterate function (height.bound + 1)))
 
 /--
 Once adjacent iterates coincide, that iterate is not merely a fixed point: it
