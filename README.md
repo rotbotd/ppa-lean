@@ -59,7 +59,10 @@ definitions; `semanticReaching` keeps its last writer for each variable.
 `abstract` unions those facts over a trace set, while `concretize` selects the
 traces admitted by a fact set. Their Galois law is proved in both directions,
 and the two pictured traces on slide 68 exhibit all five displayed reaching
-facts by reduction.
+facts by reduction. Extending every concrete trace with an assignment is then
+carried across this connection: it is always contained in kill/gen, and it is
+equal to kill/gen for an inhabited abstract state satisfying the slide's
+`α(γ(Y)) = Y` hypothesis.
 
 ## Check
 

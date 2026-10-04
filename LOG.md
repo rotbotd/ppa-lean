@@ -159,3 +159,24 @@
 - Inducing the assignment transfer as `abstract ∘ concreteStep ∘ concretize`
   remains the next edge; the file does not yet identify that composite with
   kill/gen by assertion.
+
+## 2026-10-04 — kill/gen is induced, with its hypotheses exposed
+
+- Defined concrete assignment as appending `(written, label)` to every input
+  trace. Proved `semanticReaching_extend`: last-writer semantics of that
+  extended trace is exactly predicate-level kill/gen on the original trace.
+  The term proof separates the written-variable and preserved-variable cases;
+  flat `calc` chains display each equality instead of nesting `Eq.trans`.
+- Defined the induced abstract transfer literally as
+  `abstract (concreteAssign (concretize facts))`.
+  `inducedAssign_sound` proves it is always included in kill/gen.
+- Equality needs more than the bare Galois law. It requires the slide's
+  stronger closure equation `abstract (concretize facts) = facts`, and an
+  inhabited concretization so the freshly generated definition has a source
+  trace to extend. Under those exact hypotheses, `inducedAssign_complete`
+  reconstructs a trace witness for every preserved fact and uses any admitted
+  trace for the generated fact; `inducedAssign_eq_assign` proves equality.
+- This records a real boundary hidden by slide 71's shorthand
+  `α ∘ γ = id`: a Galois connection gives `α ∘ γ ≤ id` automatically, not
+  equality on arbitrary abstract predicates, and an unreachable concrete
+  point must not generate an assignment fact from nothing.
